@@ -3,6 +3,14 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 const Read = () => {
+  const deleteStudent =(id)=>{
+    console.log("delete clicked" +id);
+    axios.delete("http://localhost:3005/students/"+id)
+    .then(response=>{
+      alert("deleted")
+      window.location.reload(false)
+    })
+  }
     var [students,setstudents] = useState([])
     useEffect(()=>{
         axios.get("http://localhost:3005/students")
@@ -19,15 +27,21 @@ const Read = () => {
         <Table>
             <TableHead>
                 <TableRow>
+                <TableCell>Id</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell>Class</TableCell>
+                    <TableCell>Grade</TableCell>
                 </TableRow>
                 </TableHead>
         <TableBody>
             {students.map((value,index)=>{
                 return<TableRow>
+                  <TableCell>{value.id}</TableCell>
                     <TableCell>{value.name}</TableCell>
-                    <TableCell>{value.class}</TableCell>
+                    <TableCell>{value.grade}</TableCell>
+                    <TableCell>
+                      <Button onClick={()=>deleteStudent(value.id)}>Delete </Button><></>
+                      <Button>Update </Button>
+                    </TableCell>
                 </TableRow>
             })}
             <TableRow>
